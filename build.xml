@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="TraversePathWeb" default="test">
 	<target name="test">
-		<echo>called successfully</echo>
-	</target>
+		<echo>called successfully ..</echo>
+	</target> 
 </project>

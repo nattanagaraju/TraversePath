@@ -1,0 +1,4 @@
+---
+applications:
+- name: TraversePathWeb
+path: build/dist/TraversePathWeb.war

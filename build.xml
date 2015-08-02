@@ -23,9 +23,9 @@
 		<mkdir dir="${dist}" />
 	</target>
 
-	<target name="compile" depends="clean">
+	<target name="compile" depends="clean, junit">
 		<echo>Compiling code...</echo>
-		<javac srcdir="${src}" destdir="${classes}" includeantruntime="false"
+		<javac srcdir="${src}/main" destdir="${classes}" includeantruntime="false"
 			nowarn="on" includes="**/*.java" debug="true">
 			<classpath refid="compile.classpath" />
 		</javac>

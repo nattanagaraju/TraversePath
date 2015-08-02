@@ -8,7 +8,7 @@
 	<property name="dist" value="build/dist" />
 	<property name="traversepath.jar" value="${dist}/traversepath.jar" />
 	<property name="resources" value="src/main/resources" />
-	
+
 
 	<path id="compile.classpath">
 		<pathelement location="${classes}" />
@@ -30,14 +30,15 @@
 			<classpath refid="compile.classpath" />
 		</javac>
 		<echo>Compile completed...</echo>
-		<copy  todir="${classes}" file="${resources}/app.properties" />
-		<jar destfile="${dist}/traversepath.jar" basedir="${classes}" includes="**/*.class, **/*.properties" />
+		<copy todir="${classes}" file="${resources}/app.properties" />
+		<jar destfile="${dist}/traversepath.jar" basedir="${classes}"
+			includes="**/*.class, **/*.properties" />
 		<echo>Jar created...</echo>
 	</target>
 
 	<target name="build-war" depends="compile">
 		<echo>Building war...</echo>
-		<copy  todir="${webdir}/lib" file="${traversepath.jar}" />
+		<copy todir="${webdir}/lib" file="${traversepath.jar}" />
 		<war destfile="${dist}/${app.name}.war">
 			<fileset dir="${web}">
 				<include name="**/*.*" />
@@ -46,5 +47,42 @@
 		<echo>war created successfully</echo>
 	</target>
 
+	<path id="classpath.test" description="classpath for running junit-tests">
+		<pathelement location="${classes}" />
+		<fileset dir="${webdir}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="test_lib">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="build/testclasses" />
+	</path>
+
+	<target name="junit">
+		<delete dir="build/testclasses" />
+		<mkdir dir="build/testclasses" />
+		<delete dir="build/reports" />
+		<mkdir dir="build/reports" />
+		<javac srcdir="${src}" destdir="build/testclasses"
+			includeantruntime="false" nowarn="on" includes="**/*.java" debug="true">
+			<classpath refid="classpath.test" />
+		</javac>
+
+		<junit printsummary="yes" haltonfailure="yes" haltonerror="yes">
+			<classpath refid="classpath.test" />
+			<formatter type="xml" />
+			<batchtest todir="build/testclasses">
+				<fileset dir="build/testclasses">
+					<include name="**/*_Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="build/testclasses">
+			<fileset dir="build/testclasses">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="build/testclasses" />
+		</junitreport>
+	</target>
 
 </project>

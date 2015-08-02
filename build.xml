@@ -7,6 +7,7 @@
 	<property name="src" value="src" />
 	<property name="dist" value="build/dist" />
 	<property name="traversepath.jar" value="${dist}/traversepath.jar" />
+	<property name="resources" value="src/main/resources" />
 	
 
 	<path id="compile.classpath">
@@ -29,7 +30,8 @@
 			<classpath refid="compile.classpath" />
 		</javac>
 		<echo>Compile completed...</echo>
-		<jar destfile="${dist}/traversepath.jar" basedir="${classes}" includes="**/*.class" />
+		<copy  todir="${classes}" file="${resources}/app.properties" />
+		<jar destfile="${dist}/traversepath.jar" basedir="${classes}" includes="**/*.class, **/*.properties" />
 		<echo>Jar created...</echo>
 	</target>
 
